@@ -67,8 +67,7 @@ Respond with JSON matching exactly this shape:
 
 export async function extractRequirements(jd: string): Promise<ExtractionResult> {
   const prompt = PROMPT.replace("{{JD}}", jd);
-  const raw = await generateJson<unknown>(prompt, { temperature: 0.1, maxOutputTokens: 2048 });
-  const parsed = ExtractionResponseSchema.parse(raw);
+  const parsed = await generateJson(prompt, ExtractionResponseSchema, { temperature: 0.1, maxOutputTokens: 2048 });
   return {
     roleTitle: parsed.role_title,
     seniority: parsed.seniority,

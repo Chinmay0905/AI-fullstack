@@ -43,7 +43,6 @@ ${reqList}
 
 Respond with JSON: { "flashcards": [ { "requirement_ids": ["r1"], "front": "", "back": "" } ] }`;
 
-  const raw = await generateJson<unknown>(prompt, { temperature: 0.4, maxOutputTokens: 2048 });
-  const parsed = ResponseSchema.parse(raw);
+  const parsed = await generateJson(prompt, ResponseSchema, { temperature: 0.4, maxOutputTokens: 2048 });
   return parsed.flashcards;
 }

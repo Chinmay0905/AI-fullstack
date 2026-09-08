@@ -95,6 +95,8 @@ Rules:
 - difficulty is 1 (junior/basic), 2 (mid-level), or 3 (senior/advanced) — judge from the
   requirement's priority and this role's seniority.
 - Only generate questions for the requirements listed. Do not invent additional requirements.
+- answer_outline must be a single plain string (not a list/array) — if it has multiple points,
+  separate them with "; " or newline characters within that one string.
 
 Requirements to cover:
 ${reqList}
@@ -107,7 +109,6 @@ Company context: ${ctx.companyBriefSummary || "(no company brief available)"}
 
 Respond with JSON: { "questions": [ { "requirement_ids": ["r1"], "prompt": "", "answer_outline": "", "difficulty": 2 } ] }`;
 
-  const raw = await generateJson<unknown>(prompt, { temperature: 0.5, maxOutputTokens: 4096 });
-  const parsed = ResponseSchema.parse(raw);
+  const parsed = await generateJson(prompt, ResponseSchema, { temperature: 0.5, maxOutputTokens: 4096 });
   return parsed.questions.map((q) => ({ ...q, category }));
 }

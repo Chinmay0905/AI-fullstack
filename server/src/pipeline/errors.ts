@@ -4,7 +4,7 @@
  * same code your application uses, not a parallel implementation"). */
 import { CompanyUnreachableError } from "../retrieval/crawler";
 import { UrlValidationError } from "../security/urlGuard";
-import { LlmInvalidJsonError, LlmRateLimitError } from "../llm/geminiClient";
+import { LlmInvalidJsonError, LlmTransientError } from "../llm/geminiClient";
 
 export type BatchErrorCode =
   | "COMPANY_UNREACHABLE"
@@ -30,7 +30,7 @@ export function classifyPipelineError(err: unknown): { code: BatchErrorCode; mes
   if (err instanceof InvalidKitStructureError) {
     return { code: "INVALID_KIT_STRUCTURE", message: err.message };
   }
-  if (err instanceof LlmInvalidJsonError || err instanceof LlmRateLimitError) {
+  if (err instanceof LlmInvalidJsonError || err instanceof LlmTransientError) {
     return { code: "LLM_FAILURE", message: err.message };
   }
   const message = err instanceof Error ? err.message : String(err);

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "case-01-normal",
+    "jd": "Senior Backend Engineer — Fleet Coordination\n\nAcme Robotics is looking for a Senior Backend Engineer to join our fleet coordination team.\n\nRequirements:\n- 5+ years of experience building backend services in Node.js or a similar server-side language\n- Required: hands-on experience with distributed systems and eventual consistency trade-offs\n- Must have experience designing and operating production APIs at scale\n- Experience mentoring junior engineers and reviewing their code thoughtfully\n- Comfortable communicating technical trade-offs to non-technical stakeholders\n\nBonus points for:\n- Experience in the logistics, robotics, or supply-chain industry\n- Familiarity with real-time systems or robotics middleware (ROS, etc.)\n- Experience with PostgreSQL at scale\n\nYou will design and operate the services that coordinate our robot fleets in real time, working closely with the robotics and infra teams.",
+    "company_url": "http://localhost:8099/",
+    "days": 5
+  },
+  {
+    "id": "case-02-thin-jd",
+    "jd": "Software Engineer needed. Must know JavaScript.",
+    "company_url": "http://localhost:8099/",
+    "days": 3
+  },
+  {
+    "id": "case-03-unreachable-company",
+    "jd": "Backend Engineer with 3+ years of Python experience required. Nice to have: AWS experience.",
+    "company_url": "http://localhost:8098/",
+    "days": 4
+  }
+]

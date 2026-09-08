@@ -14,7 +14,7 @@ loadDotenv();
 const PipelineEnvSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   GEMINI_API_KEY: z.string().min(1, "GEMINI_API_KEY is required"),
-  GEMINI_MODEL: z.string().default("gemini-2.5-flash"),
+  GEMINI_MODEL: z.string().default("gemini-3.5-flash-lite"),
   ALLOW_PRIVATE_HOSTS: z
     .string()
     .default("false")

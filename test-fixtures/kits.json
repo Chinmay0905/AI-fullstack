@@ -1,0 +1,397 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-09-08T16:45:25.273Z",
+  "kits": [
+    {
+      "id": "case-01-normal",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "company": "Acme Robotics",
+          "company_url": "http://localhost:8099/",
+          "role": "Senior Backend Engineer — Fleet Coordination",
+          "location": "",
+          "jd_chars": 905,
+          "researched_at": "2026-09-08T16:45:18.062Z",
+          "pages_used": [
+            "http://localhost:8099/",
+            "http://localhost:8099/careers/",
+            "http://localhost:8099/about.html",
+            "http://localhost:8099/blog.html",
+            "http://localhost:8099/careers/interview-process.html",
+            "http://localhost:8099/careers/life-at-acme.html"
+          ]
+        },
+        "company_brief": {
+          "summary": "Acme Robotics is a 120-person, engineering-led, and fully remote company founded in 2018. They value a calm engineering culture, trust, ownership, and small autonomous pods, and they offer a structured interview process spanning a recruiter screen, technical phone screen, take-home assignment, and virtual onsite.",
+          "what_they_do": "Acme Robotics builds warehouse automation software that coordinates fleets of autonomous mobile robots in real time to help logistics operators cut fulfillment time and reduce manual routing errors.",
+          "sources": [
+            "http://localhost:8099/",
+            "http://localhost:8099/careers/",
+            "http://localhost:8099/about.html",
+            "http://localhost:8099/blog.html",
+            "http://localhost:8099/careers/interview-process.html",
+            "http://localhost:8099/careers/life-at-acme.html"
+          ]
+        },
+        "role": {
+          "title": "Senior Backend Engineer — Fleet Coordination",
+          "seniority": "senior",
+          "responsibilities": [
+            "Design and operate the services that coordinate robot fleets in real time",
+            "Work closely with the robotics and infra teams"
+          ],
+          "requirements": [
+            {
+              "id": "r1",
+              "text": "5+ years of experience building backend services in Node.js or a similar server-side language",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r2",
+              "text": "Hands-on experience with distributed systems and eventual consistency trade-offs",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r3",
+              "text": "Experience designing and operating production APIs at scale",
+              "kind": "technical",
+              "priority": "must"
+            },
+            {
+              "id": "r4",
+              "text": "Experience mentoring junior engineers and reviewing their code thoughtfully",
+              "kind": "behavioural",
+              "priority": "must"
+            },
+            {
+              "id": "r5",
+              "text": "Comfortable communicating technical trade-offs to non-technical stakeholders",
+              "kind": "behavioural",
+              "priority": "must"
+            },
+            {
+              "id": "r6",
+              "text": "Experience in the logistics, robotics, or supply-chain industry",
+              "kind": "domain",
+              "priority": "nice"
+            },
+            {
+              "id": "r7",
+              "text": "Familiarity with real-time systems or robotics middleware (ROS, etc.)",
+              "kind": "technical",
+              "priority": "nice"
+            },
+            {
+              "id": "r8",
+              "text": "Experience with PostgreSQL at scale",
+              "kind": "technical",
+              "priority": "nice"
+            }
+          ]
+        },
+        "questions": [
+          {
+            "id": "q1",
+            "requirement_ids": [
+              "r1"
+            ],
+            "category": "technical",
+            "prompt": "With 5+ years of backend experience, you have likely encountered subtle asynchronous flow issues in Node.js or similar runtimes. Can you walk through how you diagnose and debug memory leaks or event-loop blockages in a high-throughput production service?",
+            "answer_outline": "Explain usage of heap snapshots and profiling tools (clinic.js, node --inspect); Discuss monitoring event loop lag and identifying synchronous bottlenecks; Share a specific past production example where you isolated and resolved a performance degradation.",
+            "difficulty": 3,
+            "origin": "generated"
+          },
+          {
+            "id": "q2",
+            "requirement_ids": [
+              "r2"
+            ],
+            "category": "technical",
+            "prompt": "In a fleet coordination system, robot status updates might arrive out of order or suffer from network partitions. How do you design for eventual consistency across distributed nodes, and how do you handle conflicting state updates (e.g., conflicting mission assignments)?",
+            "answer_outline": "Explain CAP theorem trade-offs and when to favor availability vs consistency; Discuss conflict-free replicated data types (CRDTs), vector clocks, or last-write-wins strategies with deterministic tie-breakers; Address how to handle idempotency in message processing.",
+            "difficulty": 3,
+            "origin": "generated"
+          },
+          {
+            "id": "q3",
+            "requirement_ids": [
+              "r3"
+            ],
+            "category": "technical",
+            "prompt": "When operating high-scale production APIs for fleet telemetry, rate limiting, pagination, and backward compatibility are critical. How do you approach versioning an API used by dozens of active robot agents, and what strategies do you use to protect backend services from traffic spikes?",
+            "answer_outline": "Discuss URI vs header-based versioning and strategies for deprecating endpoints safely; Explain rate-limiting algorithms (token bucket, leaky bucket) and distributed rate limiting via Redis; Mention circuit breakers, graceful degradation, and load shedding techniques.",
+            "difficulty": 3,
+            "origin": "generated"
+          },
+          {
+            "id": "q4",
+            "requirement_ids": [
+              "r7"
+            ],
+            "category": "technical",
+            "prompt": "While our core backend is traditional web/cloud infrastructure, we interface with real-time systems and robotics middleware like ROS. How would you design an ingestion pipeline that bridges high-frequency telemetry from ROS topics into a cloud-based backend service?",
+            "answer_outline": "Address handling high-frequency, low-latency streaming data using protocols like WebSockets, gRPC, or MQTT; Discuss data downsampling, buffering strategies at the edge for intermittent connectivity, and backpressure management in the ingestion pipeline.",
+            "difficulty": 2,
+            "origin": "generated"
+          },
+          {
+            "id": "q5",
+            "requirement_ids": [
+              "r8"
+            ],
+            "category": "technical",
+            "prompt": "As a fleet grows, PostgreSQL tables storing real-time robot telemetry and historical events can grow rapidly. What strategies do you use for PostgreSQL schema design, indexing, and partitioning at scale to maintain query performance?",
+            "answer_outline": "Discuss time-based table partitioning (e.g., using pg_partitionman or native partitioning) for large event logs; Explain careful index selection (covering indexes, partial indexes) to avoid write amplification; Describe query optimization techniques and connection pooling (PgBouncer) under high concurrency.",
+            "difficulty": 3,
+            "origin": "generated"
+          },
+          {
+            "id": "q6",
+            "requirement_ids": [
+              "r4"
+            ],
+            "category": "behavioural",
+            "prompt": "Tell me about a time when you had to mentor a junior engineer who was struggling with complex distributed systems code or architectural decisions. How did you approach code reviews and guidance to help them grow while keeping our production quality high?",
+            "answer_outline": "A strong answer demonstrates patience, empathy, and a structured approach to mentorship; it highlights how the candidate balances maintaining high code quality through thoughtful, educational code reviews rather than just fixing the code for them; the candidate should explain how they fostered autonomy and ownership in the junior engineer.",
+            "difficulty": 3,
+            "origin": "generated"
+          },
+          {
+            "id": "q7",
+            "requirement_ids": [
+              "r5"
+            ],
+            "category": "behavioural",
+            "prompt": "Describe a situation where you had to explain a complex technical trade-off or architectural limitation in a fleet coordination or backend system to a non-technical stakeholder or product manager. How did you frame the problem and ensure alignment on the path forward?",
+            "answer_outline": "A strong answer shows the ability to translate low-level distributed systems or routing trade-offs into clear business impact without losing technical accuracy; the candidate should highlight active listening, empathy for non-technical goals, and how they reached a calm, pragmatic consensus under pressure.",
+            "difficulty": 3,
+            "origin": "generated"
+          },
+          {
+            "id": "q8",
+            "requirement_ids": [
+              "r6"
+            ],
+            "category": "company-fit",
+            "prompt": "In logistics, robotics, or supply-chain systems, how do you handle partial failures or state discrepancies between a centralized fleet coordination service and autonomous edge agents (robots)? Walk through a specific scenario where a robot loses connectivity while executing a routed task, and describe how your backend architecture ensures eventual consistency without risking physical collisions or deadlocks.",
+            "answer_outline": "A strong answer goes beyond generic CAP theorem concepts and addresses physical-world constraints like network partitions in warehouses or outdoor yards. Look for discussions on state machine replication, idempotent command processing, heartbeat timeouts, and safe fallback behaviors (e.g., stopping safely vs. attempting local path replanning). Surface-level familiarity will focus only on database consistency or standard CRUD API retries without accounting for robot safety or operational state synchronization.",
+            "difficulty": 3,
+            "origin": "generated"
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "f1",
+            "front": "How do you diagnose and debug memory leaks or event-loop blockages in a high-throughput Node.js production service?",
+            "back": "Diagnose issues by monitoring metrics, analyzing heap dumps, and profiling CPU usage to identify blocking synchronous operations or retained memory references. Address them by refactoring long-running loops, offloading heavy computations, and ensuring proper resource cleanup.",
+            "requirement_ids": [
+              "r1"
+            ],
+            "origin": "generated"
+          },
+          {
+            "id": "f2",
+            "front": "How do you design for eventual consistency and handle conflicting state updates in a distributed system?",
+            "back": "Design using techniques like vector clocks, last-write-wins with synchronized timestamps, or conflict-free replicated data types (CRDTs) to reconcile out-of-order messages and network partitions gracefully.",
+            "requirement_ids": [
+              "r2"
+            ],
+            "origin": "generated"
+          },
+          {
+            "id": "f3",
+            "front": "How do you approach API versioning for active agents and protect backend services from traffic spikes?",
+            "back": "Use semantic versioning with backward-compatible schema changes and deprecation headers. Protect services against traffic spikes using rate limiting, token bucket algorithms, caching, and robust pagination strategies.",
+            "requirement_ids": [
+              "r3"
+            ],
+            "origin": "generated"
+          },
+          {
+            "id": "f4",
+            "front": "How do you mentor a junior engineer struggling with complex distributed systems code while maintaining production quality?",
+            "back": "Provide constructive, empathetic code reviews with clear explanations, pair programming sessions, and architectural guidance. Encourage autonomy while using automated testing and safeguards to maintain high production standards.",
+            "requirement_ids": [
+              "r4"
+            ],
+            "origin": "generated"
+          },
+          {
+            "id": "f5",
+            "front": "How do you explain a complex technical trade-off or architectural limitation to a non-technical stakeholder?",
+            "back": "Frame the problem around business impact, user experience, and risk rather than implementation details. Use analogies, clearly outline options and consequences, and collaborate to align on the best path forward.",
+            "requirement_ids": [
+              "r5"
+            ],
+            "origin": "generated"
+          }
+        ],
+        "schedule": {
+          "days_available": 5,
+          "days": [
+            {
+              "day": 1,
+              "focus": "Technical: 5+ years of experience building backend …, Hands-on experience with distributed sys…",
+              "question_ids": [
+                "q1",
+                "q2"
+              ],
+              "minutes": 50
+            },
+            {
+              "day": 2,
+              "focus": "Technical: Experience designing and operating produ…, Experience mentoring junior engineers an…",
+              "question_ids": [
+                "q3",
+                "q6"
+              ],
+              "minutes": 50
+            },
+            {
+              "day": 3,
+              "focus": "Behavioural: Comfortable communicating technical trad…, Experience with PostgreSQL at scale",
+              "question_ids": [
+                "q7",
+                "q5"
+              ],
+              "minutes": 50
+            },
+            {
+              "day": 4,
+              "focus": "Company & domain fit: Experience in the logistics, robotics, o…, Familiarity with real-time systems or ro…",
+              "question_ids": [
+                "q8",
+                "q4"
+              ],
+              "minutes": 40
+            },
+            {
+              "day": 5,
+              "focus": "Rest / review day — no new material scheduled",
+              "question_ids": [],
+              "minutes": 0
+            }
+          ]
+        },
+        "coverage": {
+          "uncovered_requirement_ids": [],
+          "passes": 1
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "case-02-thin-jd",
+      "status": "ok",
+      "kit": {
+        "source": {
+          "company": "Acme Robotics",
+          "company_url": "http://localhost:8099/",
+          "role": "Software Engineer",
+          "location": "",
+          "jd_chars": 47,
+          "researched_at": "2026-09-08T16:45:23.837Z",
+          "pages_used": [
+            "http://localhost:8099/",
+            "http://localhost:8099/careers/",
+            "http://localhost:8099/about.html",
+            "http://localhost:8099/blog.html",
+            "http://localhost:8099/careers/interview-process.html",
+            "http://localhost:8099/careers/life-at-acme.html"
+          ]
+        },
+        "company_brief": {
+          "summary": "Acme Robotics is a 120-person, engineering-led, and fully remote company founded in 2018 that values careful incident postmortems, gradual rollouts, and calm judgment. Candidates should expect an interview process comprising a recruiter screen, a technical phone screen, a 3-to-4-hour take-home assignment, and a virtual onsite covering system design, a take-home walkthrough, and behavioral questions. The company operates asynchronously with small autonomous pods of 4 to 6 engineers and enforces a minimum of 3 weeks of paid time off.",
+          "what_they_do": "Acme Robotics builds warehouse automation software that coordinates fleets of autonomous mobile robots in real time to help logistics operators reduce fulfillment time and manual routing errors.",
+          "sources": [
+            "http://localhost:8099/",
+            "http://localhost:8099/careers/",
+            "http://localhost:8099/about.html",
+            "http://localhost:8099/blog.html",
+            "http://localhost:8099/careers/interview-process.html",
+            "http://localhost:8099/careers/life-at-acme.html"
+          ]
+        },
+        "role": {
+          "title": "Software Engineer",
+          "seniority": "unspecified",
+          "responsibilities": [],
+          "requirements": [
+            {
+              "id": "r1",
+              "text": "JavaScript",
+              "kind": "technical",
+              "priority": "must"
+            }
+          ]
+        },
+        "questions": [
+          {
+            "id": "q1",
+            "requirement_ids": [
+              "r1"
+            ],
+            "category": "technical",
+            "prompt": "Explain how JavaScript handles asynchronous operations using the event loop, microtasks (like Promises), and macrotasks (like setTimeout). How would you track and debug an unhandled asynchronous exception in a Node.js-based robotics telemetry service?",
+            "answer_outline": "Describe the call stack, Web APIs/Node.js background threads, and callback queue; Explain the priority of the microtask queue over the macrotask queue; Discuss process.on('unhandledRejection') and uncaughtException handlers; Mention modern async/await syntax and proper try/catch error propagation in distributed services.",
+            "difficulty": 2,
+            "origin": "generated"
+          }
+        ],
+        "flashcards": [
+          {
+            "id": "f1",
+            "front": "How does JavaScript handle asynchronous operations (event loop, microtasks, macrotasks), and how would you track an unhandled async exception in a Node.js telemetry service?",
+            "back": "The event loop executes synchronous code, processes all high-priority microtasks (Promises/queueMicrotask) from the microtask queue, and then handles macrotasks (setTimeout/I/O) from the callback queue. To track unhandled asynchronous exceptions in Node.js, listen to the 'unhandledRejection' event on the process object and ensure proper logging or monitoring.",
+            "requirement_ids": [
+              "r1"
+            ],
+            "origin": "generated"
+          }
+        ],
+        "schedule": {
+          "days_available": 3,
+          "days": [
+            {
+              "day": 1,
+              "focus": "Technical: JavaScript",
+              "question_ids": [
+                "q1"
+              ],
+              "minutes": 15
+            },
+            {
+              "day": 2,
+              "focus": "Rest / review day — no new material scheduled",
+              "question_ids": [],
+              "minutes": 0
+            },
+            {
+              "day": 3,
+              "focus": "Rest / review day — no new material scheduled",
+              "question_ids": [],
+              "minutes": 0
+            }
+          ]
+        },
+        "coverage": {
+          "uncovered_requirement_ids": [],
+          "passes": 1
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "case-03-unreachable-company",
+      "status": "failed",
+      "kit": null,
+      "error": {
+        "code": "COMPANY_UNREACHABLE",
+        "message": "company site unreachable: http://localhost:8098/ (fetch failed)"
+      }
+    }
+  ]
+}

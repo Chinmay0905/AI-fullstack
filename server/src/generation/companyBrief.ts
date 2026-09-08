@@ -51,8 +51,7 @@ ${pageBlocks}
 
 Respond with JSON: { "summary": "", "what_they_do": "" }`;
 
-  const raw = await generateJson<unknown>(prompt, { temperature: 0.3, maxOutputTokens: 1024 });
-  const parsed = BriefResponseSchema.parse(raw);
+  const parsed = await generateJson(prompt, BriefResponseSchema, { temperature: 0.3, maxOutputTokens: 1024 });
 
   return {
     summary: parsed.summary,
