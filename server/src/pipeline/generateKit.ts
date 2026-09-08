@@ -41,6 +41,30 @@ export interface GenerateKitInput {
   days: number;
 }
 
+export type ProgressStep =
+  | "crawling_company_site"
+  | "extracting_requirements"
+  | "writing_company_brief"
+  | "searching_discussion"
+  | "generating_questions"
+  | "checking_coverage"
+  | "filling_coverage_gaps"
+  | "generating_flashcards"
+  | "building_schedule"
+  | "validating_kit";
+
+export interface GenerateKitResult {
+  kit: Kit;
+  /** Regeneration context (crawled pages, hiring notes, generation
+   * settings) — not part of Appendix A, persisted separately so a later
+   * "regenerate this section" call doesn't need to re-crawl the live site. */
+  meta: {
+    sourcePages: CrawledPage[];
+    hiringProcessNotes: string;
+    genCtx: GenerationContext;
+  };
+}
+
 /** First pass + one gap-filling pass. Chosen over more passes because the
  * question-generation prompt already instructs the model to reference
  * exact requirement ids and is reliable at doing so in practice — a
@@ -72,10 +96,17 @@ function groupByKind(requirements: Requirement[]): Record<Requirement["kind"], R
   return groups;
 }
 
-export async function generateKit(input: GenerateKitInput): Promise<Kit> {
+export async function generateKitWithMeta(
+  input: GenerateKitInput,
+  onProgress?: (step: ProgressStep) => void,
+): Promise<GenerateKitResult> {
+  const emit = (step: ProgressStep) => onProgress?.(step);
+
   // Fail fast on a structurally invalid URL before spending an LLM call on extraction.
   validateExternalUrl(input.companyUrl);
 
+  emit("crawling_company_site");
+  emit("extracting_requirements");
   const [crawl, extraction] = await Promise.all([
     crawlCompanySite(input.companyUrl),
     extractRequirements(input.jd),
@@ -89,12 +120,14 @@ export async function generateKit(input: GenerateKitInput): Promise<Kit> {
   }));
 
   const companyName = deriveCompanyName(crawl.pages[0]?.title, input.companyUrl);
+  emit("writing_company_brief");
   const companyBrief = await generateCompanyBrief(input.companyUrl, crawl.pages);
 
   const hiringPagesText = crawl.pages
     .filter((p: CrawledPage) => p.kind === "hiring")
     .map((p) => p.text)
     .join("\n\n");
+  emit("searching_discussion");
   const discussion = await searchInterviewDiscussion(companyName);
   const discussionText = discussion.results.map((r) => `${r.title}: ${r.snippet}`).join("\n");
   const hiringProcessNotes = [hiringPagesText, discussionText].filter(Boolean).join("\n\n");
@@ -130,10 +163,13 @@ export async function generateKit(input: GenerateKitInput): Promise<Kit> {
     }
   }
 
+  emit("generating_questions");
   await generateForRequirements(requirements);
 
+  emit("checking_coverage");
   let passes = 1;
   let uncovered = findUncoveredRequirementIds({ requirements, questions });
+  if (uncovered.length > 0) emit("filling_coverage_gaps");
   while (uncovered.length > 0 && passes < MAX_COVERAGE_PASSES) {
     const gapRequirements = requirements.filter((r) => uncovered.includes(r.id));
     await generateForRequirements(gapRequirements);
@@ -141,6 +177,7 @@ export async function generateKit(input: GenerateKitInput): Promise<Kit> {
     uncovered = findUncoveredRequirementIds({ requirements, questions });
   }
 
+  emit("generating_flashcards");
   let flashcardCounter = 1;
   const flashcardsRaw = await generateFlashcards(requirements, questions);
   const flashcards: Flashcard[] = flashcardsRaw.map((f) => ({
@@ -151,6 +188,7 @@ export async function generateKit(input: GenerateKitInput): Promise<Kit> {
     origin: "generated",
   }));
 
+  emit("building_schedule");
   const schedule = buildSchedule(questions, requirements, input.days);
 
   const kit: Kit = {
@@ -176,6 +214,7 @@ export async function generateKit(input: GenerateKitInput): Promise<Kit> {
     coverage: { uncovered_requirement_ids: uncovered, passes },
   };
 
+  emit("validating_kit");
   const parsed = KitSchema.safeParse(kit);
   if (!parsed.success) {
     throw new InvalidKitStructureError(parsed.error.issues.map((i) => i.message).join("; "));
@@ -185,7 +224,17 @@ export async function generateKit(input: GenerateKitInput): Promise<Kit> {
     throw new InvalidKitStructureError(refErrors.join("; "));
   }
 
-  return parsed.data;
+  return {
+    kit: parsed.data,
+    meta: { sourcePages: crawl.pages, hiringProcessNotes, genCtx },
+  };
+}
+
+/** Batch entry point (Section 9) only needs the Appendix A shape — no
+ * regeneration meta, since a batch run never reopens a kit afterward. */
+export async function generateKit(input: GenerateKitInput): Promise<Kit> {
+  const { kit } = await generateKitWithMeta(input);
+  return kit;
 }
 
 export { CompanyUnreachableError };
