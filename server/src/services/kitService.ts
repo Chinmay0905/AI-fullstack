@@ -18,7 +18,7 @@
  */
 import crypto from "node:crypto";
 import { KitModel, type KitMeta, type PracticeRecord } from "../models/Kit";
-import type { Kit, Question, Flashcard, QuestionCategory as QuestionCategoryType } from "@aipk/shared";
+import type { Kit, Question, Flashcard, QuestionCategory } from "@aipk/shared";
 import { KitSchema, validateKitReferences } from "@aipk/shared";
 import { generateKitWithMeta, type ProgressStep } from "../pipeline/generateKit";
 import { classifyPipelineError } from "../pipeline/errors";
@@ -340,7 +340,7 @@ export async function deleteQuestion(kitId: string, userId: string, questionId: 
 export async function reorderQuestions(
   kitId: string,
   userId: string,
-  order: { id: string; category: (typeof QuestionCategoryType)["_output"] }[],
+  order: { id: string; category: QuestionCategory }[],
 ) {
   const doc = await KitModel.findOne({ _id: kitId, userId });
   if (!doc || !doc.kit) throw new NotFoundError("kit not found or not ready");

@@ -8,18 +8,30 @@
 import { z } from "zod";
 
 export const RequirementKind = z.enum(["technical", "behavioural", "domain"]);
+export type RequirementKind = z.infer<typeof RequirementKind>;
+
 export const RequirementPriority = z.enum(["must", "nice"]);
+export type RequirementPriority = z.infer<typeof RequirementPriority>;
+
 export const QuestionCategory = z.enum([
   "technical",
   "behavioural",
   "system-design",
   "company-fit",
 ]);
+// Declaration merging: same identifier as the schema above, but in
+// type-space rather than value-space — so `category: QuestionCategory` in
+// a type position resolves to this, while `z.object({ category:
+// QuestionCategory })` still resolves to the Zod schema. Needed because
+// isolatedModules builds (Next.js/SWC) can't safely do `typeof` on a
+// value that was only ever `import type`-ed, unlike a plain tsc build.
+export type QuestionCategory = z.infer<typeof QuestionCategory>;
 
 /** Tracks whether an item came from the model, was hand-authored, or was
  * edited by the user — this is what lets a category regeneration skip
  * anything the user touched. Optional/extension field, not in Appendix A. */
 export const ItemOrigin = z.enum(["generated", "user_added", "user_edited"]);
+export type ItemOrigin = z.infer<typeof ItemOrigin>;
 
 export const RequirementSchema = z.object({
   id: z.string().min(1),
