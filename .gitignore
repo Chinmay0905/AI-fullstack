@@ -6,7 +6,7 @@ dist/
 build/
 .next/
 out/
-coverage/
+/*/coverage/
 *.log
 .DS_Store
 eval-output/
