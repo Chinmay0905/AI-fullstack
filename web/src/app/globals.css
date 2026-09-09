@@ -1,6 +1,18 @@
 @import "tailwindcss";
 
+/*
+ * This app is designed as a single, light theme throughout (every
+ * component uses explicit Tailwind neutral-* classes) — there's no real
+ * dark-mode design pass. The default create-next-app template flips
+ * --background/--foreground on prefers-color-scheme: dark, which left
+ * body text light-gray while form inputs kept a plain white background
+ * (never given an explicit text/background color) — nearly invisible
+ * text and placeholders on a dark-mode OS. Forcing color-scheme: light
+ * keeps the app (and native form control rendering) consistently light
+ * regardless of OS/browser preference, matching what's actually built.
+ */
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -10,13 +22,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

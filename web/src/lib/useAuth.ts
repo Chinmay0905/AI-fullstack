@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { authApi, ApiError } from "./api";
+import { authApi } from "./api";
 
 export function useAuth() {
   const queryClient = useQueryClient();
@@ -9,9 +9,12 @@ export function useAuth() {
     queryKey: ["me"],
     queryFn: authApi.me,
     retry: false,
-    // A 401 here just means "signed out" — not worth React Query's default
-    // background refetch/retry noise.
-    throwOnError: (err) => !(err instanceof ApiError && err.status === 401),
+    // This hook only ever answers "am I signed in" — there is no failure
+    // mode (a 401, or the backend being briefly unreachable) that should
+    // crash the app instead of just falling back to "treat as signed
+    // out." No error boundary exists to catch a throw here, so letting
+    // one through means a genuine blank-screen crash.
+    throwOnError: false,
   });
 
   return {

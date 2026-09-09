@@ -83,7 +83,7 @@ export function CreateKitForm() {
               value={jd}
               onChange={(e) => setJd(e.target.value)}
               placeholder="Paste the full job description here…"
-              className="rounded-md border border-neutral-300 px-3 py-2 font-mono text-xs focus:outline focus:outline-2 focus:outline-neutral-900"
+              className="rounded-md border border-neutral-300 bg-white px-3 py-2 font-mono text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline focus:outline-2 focus:outline-neutral-900"
             />
           </label>
           <div className="flex gap-4">
@@ -95,7 +95,7 @@ export function CreateKitForm() {
                 value={companyUrl}
                 onChange={(e) => setCompanyUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="rounded-md border border-neutral-300 px-3 py-2 focus:outline focus:outline-2 focus:outline-neutral-900"
+                className="rounded-md border border-neutral-300 bg-white px-3 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline focus:outline-2 focus:outline-neutral-900"
               />
             </label>
             <label className="flex w-28 flex-col gap-1 text-sm">
@@ -107,7 +107,7 @@ export function CreateKitForm() {
                 required
                 value={days}
                 onChange={(e) => setDays(Number(e.target.value))}
-                className="rounded-md border border-neutral-300 px-3 py-2 focus:outline focus:outline-2 focus:outline-neutral-900"
+                className="rounded-md border border-neutral-300 bg-white px-3 py-2 text-neutral-900 focus:outline focus:outline-2 focus:outline-neutral-900"
               />
             </label>
           </div>
