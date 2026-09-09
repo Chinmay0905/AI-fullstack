@@ -1,0 +1,38 @@
+# Render Blueprint — deploy via the Render dashboard: New > Blueprint,
+# point it at this repo, and it provisions the service below. Secrets
+# (marked sync: false) are prompted for at deploy time rather than stored
+# here. See server/.env.example for what each one is for.
+#
+# No rootDir set deliberately — this is an npm-workspaces monorepo, so
+# install/build/start all need to run from the repo root for the
+# workspace symlink to @aipk/shared to resolve.
+services:
+  - type: web
+    name: ai-interview-prep-kit-api
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build --workspace=server
+    startCommand: npm run start --workspace=server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
+      - key: CLIENT_ORIGINS
+        sync: false
+      - key: ALLOW_PRIVATE_HOSTS
+        value: "false"
+      - key: GOOGLE_CSE_API_KEY
+        sync: false
+      - key: GOOGLE_CSE_CX
+        sync: false
