@@ -60,7 +60,7 @@ export function EditableText({ value, onSave, multiline, rows, className, label,
 
   const baseClassName =
     className ??
-    "w-full rounded-lg border border-transparent bg-transparent px-2 py-1 text-sm text-white/90 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none";
+    "w-full rounded-lg border border-transparent bg-transparent px-2 py-1 text-sm text-stone-800 transition hover:border-amber-700/20 focus:border-amber-600/50 focus:bg-white/60 focus:outline-none";
 
   if (multiline) {
     return (

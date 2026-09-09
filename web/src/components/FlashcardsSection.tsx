@@ -17,10 +17,10 @@ export function FlashcardsSection({
   return (
     <section className="glass rounded-2xl p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-white">🗂️ Flashcards ({kit.flashcards.length})</h2>
+        <h2 className="text-lg font-bold text-stone-900">🗂️ Flashcards ({kit.flashcards.length})</h2>
         <button
           onClick={() => setAdding((v) => !v)}
-          className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-white/70 transition hover:bg-white/10 hover:text-white"
+          className="rounded-lg border border-stone-300 px-2.5 py-1 text-xs text-stone-600 transition hover:bg-amber-600/10 hover:text-stone-900"
         >
           + Add flashcard
         </button>
@@ -38,7 +38,7 @@ export function FlashcardsSection({
       )}
 
       {kit.flashcards.length === 0 ? (
-        <p className="text-sm text-white/35">No flashcards yet.</p>
+        <p className="text-sm text-stone-400">No flashcards yet.</p>
       ) : (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {kit.flashcards.map((f) => (
@@ -60,22 +60,22 @@ function FlashcardEditor({
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
-    <li className="glass rounded-xl p-3.5 transition hover:border-white/20">
+    <li className="glass rounded-xl p-3.5 transition hover:border-amber-700/25">
       <div className="mb-1.5 flex items-center justify-between text-xs">
-        <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-white/55">
+        <span className="rounded-full border border-stone-300 bg-white/50 px-2 py-0.5 text-stone-500">
           {flashcard.origin === "user_added" ? "Added by you" : flashcard.origin === "user_edited" ? "Edited by you" : "Generated"}
         </span>
         {confirmDelete ? (
           <span className="flex gap-1">
             <button
               onClick={() => actions.deleteFlashcard.mutate([flashcard.id])}
-              className="rounded-md border border-red-400/40 bg-red-400/15 px-1.5 py-0.5 text-red-300 hover:bg-red-400/25"
+              className="rounded-md border border-red-400 bg-red-100 px-1.5 py-0.5 text-red-700 hover:bg-red-200"
             >
               Confirm
             </button>
             <button
               onClick={() => setConfirmDelete(false)}
-              className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 hover:bg-white/10"
+              className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 hover:bg-stone-100"
             >
               Cancel
             </button>
@@ -83,29 +83,29 @@ function FlashcardEditor({
         ) : (
           <button
             onClick={() => setConfirmDelete(true)}
-            className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
+            className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700"
           >
             Delete
           </button>
         )}
       </div>
-      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-violet-300/70">Front</p>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-orange-700/80">Front</p>
       <EditableText
         value={flashcard.front}
         onSave={(front) => actions.editFlashcard.mutate([flashcard.id, { front }])}
         multiline
         rows={2}
         label="Flashcard front"
-        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm font-medium text-white/90 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none"
+        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm font-medium text-stone-900 transition hover:border-amber-700/20 focus:border-amber-600/50 focus:bg-white/60 focus:outline-none"
       />
-      <p className="mb-1 mt-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-300/70">Back</p>
+      <p className="mb-1 mt-1.5 text-xs font-semibold uppercase tracking-wider text-amber-700/80">Back</p>
       <EditableText
         value={flashcard.back}
         onSave={(back) => actions.editFlashcard.mutate([flashcard.id, { back }])}
         multiline
         rows={2}
         label="Flashcard back"
-        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm text-white/75 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none"
+        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm text-stone-700 transition hover:border-amber-700/20 focus:border-amber-600/50 focus:bg-white/60 focus:outline-none"
       />
     </li>
   );
@@ -139,7 +139,7 @@ function AddFlashcardForm({
           placeholder="Back"
           className="field rounded-lg px-2 py-1 text-sm"
         />
-        <div className="flex items-center gap-2 text-xs text-white/60">
+        <div className="flex items-center gap-2 text-xs text-stone-600">
           <label className="flex items-center gap-1">
             Requirement
             <select
@@ -147,16 +147,16 @@ function AddFlashcardForm({
               onChange={(e) => setReqId(e.target.value)}
               className="field rounded-md px-1 py-0.5"
             >
-              <option className="bg-[#12101f]" value="">(none)</option>
+              <option className="bg-white" value="">(none)</option>
               {requirements.map((r) => (
-                <option key={r.id} value={r.id} className="bg-[#12101f]">
+                <option key={r.id} value={r.id} className="bg-white">
                   {r.id}: {r.text.slice(0, 30)}
                 </option>
               ))}
             </select>
           </label>
           <div className="ml-auto flex gap-2">
-            <button onClick={onCancel} className="rounded-md border border-white/10 px-2 py-1 text-white/60 hover:bg-white/10">
+            <button onClick={onCancel} className="rounded-md border border-stone-300 px-2 py-1 text-stone-600 hover:bg-stone-100">
               Cancel
             </button>
             <button

@@ -8,11 +8,11 @@ import type { PracticeCard } from "@/lib/types";
 
 const CONFIDENCE_LABELS = ["Not confident", "Shaky", "OK", "Confident", "Nailed it"];
 const CONFIDENCE_STYLE = [
-  "border-red-400/30 bg-red-400/10 text-red-300 hover:bg-red-400/20",
-  "border-orange-400/30 bg-orange-400/10 text-orange-300 hover:bg-orange-400/20",
-  "border-amber-400/30 bg-amber-400/10 text-amber-300 hover:bg-amber-400/20",
-  "border-cyan-400/30 bg-cyan-400/10 text-cyan-300 hover:bg-cyan-400/20",
-  "border-emerald-400/30 bg-emerald-400/10 text-emerald-300 hover:bg-emerald-400/20",
+  "border-red-300 bg-red-50 text-red-700 hover:bg-red-100",
+  "border-orange-300 bg-orange-50 text-orange-700 hover:bg-orange-100",
+  "border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100",
+  "border-lime-300 bg-lime-50 text-lime-700 hover:bg-lime-100",
+  "border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100",
 ];
 
 /**
@@ -52,19 +52,19 @@ export function PracticeClient({ id }: { id: string }) {
   });
 
   if (query.isLoading || sessionOrder === null) {
-    return <p className="text-sm text-white/50">Loading flashcards…</p>;
+    return <p className="text-sm text-stone-500">Loading flashcards…</p>;
   }
   if (query.isError || !query.data) {
-    return <p className="text-sm text-red-300">Could not load flashcards for this kit.</p>;
+    return <p className="text-sm text-red-700">Could not load flashcards for this kit.</p>;
   }
 
   const coverage = query.data.coverage;
 
   if (sessionOrder.length === 0) {
     return (
-      <div className="glass rounded-2xl border-dashed p-8 text-center text-sm text-white/50">
+      <div className="glass rounded-2xl border-dashed p-8 text-center text-sm text-stone-500">
         This kit has no flashcards yet.{" "}
-        <Link href={`/kits/${id}`} className="text-cyan-300 underline">
+        <Link href={`/kits/${id}`} className="text-amber-700 underline">
           Go add some
         </Link>
         .
@@ -78,16 +78,16 @@ export function PracticeClient({ id }: { id: string }) {
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6">
       <div className="flex items-center justify-between">
-        <Link href={`/kits/${id}`} className="text-sm text-white/50 underline hover:text-white/80">
+        <Link href={`/kits/${id}`} className="text-sm text-stone-500 underline hover:text-stone-800">
           ← Back to kit
         </Link>
-        <span className="text-sm text-white/50">
+        <span className="text-sm text-stone-500">
           Covered {coverage.reviewed}/{coverage.total}
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full border border-white/10 bg-white/5">
+      <div className="h-2 w-full overflow-hidden rounded-full border border-stone-300 bg-white/50">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 shadow-[0_0_10px_rgba(168,85,247,0.6)] transition-all"
+          className="h-full rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-600 shadow-[0_0_10px_rgba(184,115,58,0.5)] transition-all"
           style={{ width: `${(coverage.reviewed / Math.max(1, coverage.total)) * 100}%` }}
         />
       </div>
@@ -95,7 +95,7 @@ export function PracticeClient({ id }: { id: string }) {
       {done || !card ? (
         <div className="glass rounded-2xl p-8 text-center">
           <h1 className="mb-2 text-xl font-bold gradient-text">🎉 Session complete</h1>
-          <p className="mb-5 text-sm text-white/50">
+          <p className="mb-5 text-sm text-stone-500">
             You reviewed {sessionOrder.length} card{sessionOrder.length === 1 ? "" : "s"} this session.
           </p>
           <button
@@ -111,16 +111,16 @@ export function PracticeClient({ id }: { id: string }) {
         </div>
       ) : (
         <div className="glass rounded-2xl p-8">
-          <p className="mb-4 text-xs uppercase tracking-wide text-white/35">
+          <p className="mb-4 text-xs uppercase tracking-wide text-stone-400">
             Card {index + 1} of {sessionOrder.length}
             {card.confidence !== null && ` · last rated: ${CONFIDENCE_LABELS[card.confidence - 1]}`}
           </p>
-          <p className="mb-7 min-h-[3rem] text-xl font-semibold text-white">{card.front}</p>
+          <p className="mb-7 min-h-[3rem] text-xl font-semibold text-stone-900">{card.front}</p>
 
           {revealed ? (
             <>
-              <div className="glass mb-6 rounded-xl p-4 text-sm text-white/80">{card.back}</div>
-              <p className="mb-2 text-sm text-white/50">How confident were you?</p>
+              <div className="glass mb-6 rounded-xl p-4 text-sm text-stone-700">{card.back}</div>
+              <p className="mb-2 text-sm text-stone-500">How confident were you?</p>
               <div className="flex gap-2">
                 {CONFIDENCE_LABELS.map((label, i) => (
                   <button

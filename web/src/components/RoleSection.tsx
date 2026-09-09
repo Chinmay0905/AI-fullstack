@@ -1,19 +1,19 @@
 import type { Kit } from "@aipk/shared";
 
 const KIND_STYLE: Record<string, string> = {
-  technical: "border-cyan-400/30 bg-cyan-400/10 text-cyan-300",
-  behavioural: "border-violet-400/30 bg-violet-400/10 text-violet-300",
-  domain: "border-pink-400/30 bg-pink-400/10 text-pink-300",
+  technical: "border-amber-400 bg-amber-100 text-amber-800",
+  behavioural: "border-orange-400 bg-orange-100 text-orange-800",
+  domain: "border-red-400 bg-red-100 text-red-800",
 };
 
 export function RoleSection({ kit }: { kit: Kit }) {
   return (
     <section className="glass rounded-2xl p-6">
-      <h2 className="mb-4 text-lg font-bold text-white">🎯 Role breakdown</h2>
+      <h2 className="mb-4 text-lg font-bold text-stone-900">🎯 Role breakdown</h2>
       <div className="mb-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="text-lg font-semibold text-white">{kit.role.title || "Untitled role"}</span>
+        <span className="text-lg font-semibold text-stone-900">{kit.role.title || "Untitled role"}</span>
         {kit.role.seniority && (
-          <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-xs text-white/70">
+          <span className="rounded-full border border-stone-300 bg-white/60 px-2.5 py-0.5 text-xs text-stone-600">
             {kit.role.seniority}
           </span>
         )}
@@ -21,8 +21,8 @@ export function RoleSection({ kit }: { kit: Kit }) {
 
       {kit.role.responsibilities.length > 0 && (
         <div className="mb-5">
-          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-white/40">Responsibilities</p>
-          <ul className="list-inside list-disc text-sm text-white/75">
+          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-stone-400">Responsibilities</p>
+          <ul className="list-inside list-disc text-sm text-stone-700">
             {kit.role.responsibilities.map((r, i) => (
               <li key={i}>{r}</li>
             ))}
@@ -31,11 +31,11 @@ export function RoleSection({ kit }: { kit: Kit }) {
       )}
 
       <div>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-stone-400">
           Requirements ({kit.role.requirements.length})
         </p>
         {kit.role.requirements.length === 0 ? (
-          <p className="text-sm text-white/50">
+          <p className="text-sm text-stone-500">
             No clear requirements could be extracted from this job description.
           </p>
         ) : (
@@ -46,7 +46,7 @@ export function RoleSection({ kit }: { kit: Kit }) {
                   className={`mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
                     r.priority === "must"
                       ? "glow-btn text-white"
-                      : "border border-white/12 bg-white/5 text-white/50"
+                      : "border border-stone-300 bg-white/60 text-stone-500"
                   }`}
                 >
                   {r.priority}
@@ -54,7 +54,7 @@ export function RoleSection({ kit }: { kit: Kit }) {
                 <span className={`shrink-0 rounded-full border px-2 py-0.5 text-xs ${KIND_STYLE[r.kind] ?? KIND_STYLE.technical}`}>
                   {r.kind}
                 </span>
-                <span className="text-white/80">{r.text}</span>
+                <span className="text-stone-800">{r.text}</span>
               </li>
             ))}
           </ul>

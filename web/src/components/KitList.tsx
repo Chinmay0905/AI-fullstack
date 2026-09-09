@@ -24,16 +24,16 @@ export function KitList() {
   });
 
   if (query.isLoading) {
-    return <p className="text-sm text-white/50">Loading your kits…</p>;
+    return <p className="text-sm text-stone-500">Loading your kits…</p>;
   }
   if (query.isError) {
-    return <p className="text-sm text-red-300">Could not load your kits. Try refreshing.</p>;
+    return <p className="text-sm text-red-700">Could not load your kits. Try refreshing.</p>;
   }
 
   const kits = query.data?.kits ?? [];
   if (kits.length === 0) {
     return (
-      <p className="glass rounded-2xl border-dashed p-8 text-center text-sm text-white/50">
+      <p className="glass rounded-2xl border-dashed p-8 text-center text-sm text-stone-500">
         No kits yet — paste a job description above to generate your first one.
       </p>
     );
@@ -48,17 +48,17 @@ export function KitList() {
         >
           <Link href={`/kits/${k.id}`} className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <span className="truncate font-medium text-white">
+              <span className="truncate font-medium text-stone-900">
                 {k.kit?.role.title || k.kit?.source.company || "Untitled kit"}
               </span>
               <StatusBadge status={k.status} progressStep={k.progressStep} />
             </div>
-            <p className="mt-0.5 truncate text-xs text-white/45">
+            <p className="mt-0.5 truncate text-xs text-stone-500">
               {k.kit?.source.company || k.input.companyUrl} · {k.input.days} day
               {k.input.days === 1 ? "" : "s"}
             </p>
             {k.status === "failed" && k.error && (
-              <p className="mt-1 text-xs text-red-300">
+              <p className="mt-1 text-xs text-red-700">
                 {k.error.code}: {k.error.message}
               </p>
             )}
@@ -67,7 +67,7 @@ export function KitList() {
             onClick={() => deleteMutation.mutate(k.id)}
             disabled={deleteMutation.isPending}
             aria-label="Delete kit"
-            className="shrink-0 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-white/60 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300 disabled:opacity-50"
+            className="shrink-0 rounded-lg border border-stone-300 px-2.5 py-1.5 text-xs text-stone-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:opacity-50"
           >
             Delete
           </button>

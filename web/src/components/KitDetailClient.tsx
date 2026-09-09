@@ -26,11 +26,11 @@ export function KitDetailClient({ id }: { id: string }) {
   const { record, isLoading, isError } = kitHook;
 
   if (isLoading) {
-    return <p className="text-sm text-white/50">Loading kit…</p>;
+    return <p className="text-sm text-stone-500">Loading kit…</p>;
   }
   if (isError || !record) {
     return (
-      <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-5 text-sm text-red-300">
+      <div className="rounded-2xl border border-red-300 bg-red-50 p-5 text-sm text-red-700">
         Could not load this kit.{" "}
         <Link href="/" className="underline">
           Back to dashboard
@@ -44,7 +44,7 @@ export function KitDetailClient({ id }: { id: string }) {
     return (
       <div className="glass rounded-2xl p-8">
         <h1 className="mb-1 text-xl font-bold gradient-text">Generating your kit…</h1>
-        <p className="mb-7 text-sm text-white/45">
+        <p className="mb-7 text-sm text-stone-500">
           {record.input.companyUrl} · {record.input.days} day{record.input.days === 1 ? "" : "s"}
         </p>
         <ol className="flex flex-col gap-3">
@@ -56,15 +56,15 @@ export function KitDetailClient({ id }: { id: string }) {
                 <span
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                     done
-                      ? "bg-emerald-400/20 text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.35)]"
+                      ? "bg-emerald-100 text-emerald-700 shadow-[0_0_10px_rgba(52,211,153,0.35)]"
                       : active
                         ? "pulse-glow glow-btn text-white"
-                        : "border border-white/10 text-white/30"
+                        : "border border-stone-300 text-stone-400"
                   }`}
                 >
                   {done ? "✓" : i + 1}
                 </span>
-                <span className={active ? "font-semibold text-white" : done ? "text-white/60" : "text-white/35"}>
+                <span className={active ? "font-semibold text-stone-900" : done ? "text-stone-600" : "text-stone-400"}>
                   {PROGRESS_LABELS[step] ?? step}
                 </span>
               </li>
@@ -77,12 +77,12 @@ export function KitDetailClient({ id }: { id: string }) {
 
   if (record.status === "failed") {
     return (
-      <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-6">
-        <h1 className="mb-2 text-lg font-bold text-red-300">Generation failed</h1>
-        <p className="text-sm text-red-200/80">
+      <div className="rounded-2xl border border-red-300 bg-red-50 p-6">
+        <h1 className="mb-2 text-lg font-bold text-red-700">Generation failed</h1>
+        <p className="text-sm text-red-700/80">
           {record.error?.code}: {record.error?.message}
         </p>
-        <Link href="/" className="mt-4 inline-block text-sm text-red-300 underline">
+        <Link href="/" className="mt-4 inline-block text-sm text-red-700 underline">
           Back to dashboard — try again with a different input
         </Link>
       </div>
@@ -96,7 +96,7 @@ export function KitDetailClient({ id }: { id: string }) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold gradient-text">{kit.role.title || "Untitled role"}</h1>
-          <p className="text-sm text-white/45">
+          <p className="text-sm text-stone-500">
             {kit.source.company} · researched {new Date(kit.source.researched_at).toLocaleDateString()}
           </p>
         </div>

@@ -33,28 +33,28 @@ export function QuestionCard({
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
-    <li className="glass rounded-xl p-3.5 transition hover:border-white/20">
+    <li className="glass rounded-xl p-3.5 transition hover:border-amber-700/25">
       <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
-        <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-white/55">
+        <span className="rounded-full border border-stone-300 bg-white/50 px-2 py-0.5 text-stone-500">
           {ORIGIN_LABEL[question.origin ?? "generated"]}
         </span>
         {question.pinned && (
-          <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 font-medium text-amber-300">
+          <span className="rounded-full border border-amber-400 bg-amber-100 px-2 py-0.5 font-medium text-amber-800">
             📌 Pinned
           </span>
         )}
-        <span className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-2 py-0.5 text-cyan-300">
+        <span className="rounded-full border border-amber-400/50 bg-amber-100/70 px-2 py-0.5 text-amber-800">
           Difficulty {question.difficulty}/3
         </span>
         {question.requirement_ids.length > 0 && (
-          <span className="text-white/35">covers {question.requirement_ids.join(", ")}</span>
+          <span className="text-stone-400">covers {question.requirement_ids.join(", ")}</span>
         )}
         <div className="ml-auto flex items-center gap-1">
           <button
             onClick={onMoveUp}
             disabled={!canMoveUp}
             aria-label="Move up"
-            className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 transition hover:bg-white/10 hover:text-white disabled:opacity-25"
+            className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 transition hover:bg-amber-600/10 hover:text-stone-900 disabled:opacity-25"
           >
             ↑
           </button>
@@ -62,7 +62,7 @@ export function QuestionCard({
             onClick={onMoveDown}
             disabled={!canMoveDown}
             aria-label="Move down"
-            className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 transition hover:bg-white/10 hover:text-white disabled:opacity-25"
+            className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 transition hover:bg-amber-600/10 hover:text-stone-900 disabled:opacity-25"
           >
             ↓
           </button>
@@ -70,17 +70,17 @@ export function QuestionCard({
             aria-label="Move to category"
             value={question.category}
             onChange={(e) => onMoveCategory(e.target.value as QuestionCategory)}
-            className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-white/70"
+            className="rounded-md border border-stone-300 bg-white/60 px-1.5 py-0.5 text-stone-700"
           >
             {CATEGORIES.map((c) => (
-              <option key={c} value={c} className="bg-[#12101f] text-white">
+              <option key={c} value={c} className="bg-white text-stone-900">
                 {c}
               </option>
             ))}
           </select>
           <button
             onClick={() => actions.pinQuestion.mutate([question.id, !question.pinned])}
-            className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 transition hover:bg-white/10 hover:text-white"
+            className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 transition hover:bg-amber-600/10 hover:text-stone-900"
           >
             {question.pinned ? "Unpin" : "Pin"}
           </button>
@@ -88,13 +88,13 @@ export function QuestionCard({
             <>
               <button
                 onClick={() => actions.deleteQuestion.mutate([question.id])}
-                className="rounded-md border border-red-400/40 bg-red-400/15 px-1.5 py-0.5 text-red-300 hover:bg-red-400/25"
+                className="rounded-md border border-red-400 bg-red-100 px-1.5 py-0.5 text-red-700 hover:bg-red-200"
               >
                 Confirm
               </button>
               <button
                 onClick={() => setConfirmDelete(false)}
-                className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 hover:bg-white/10"
+                className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 hover:bg-stone-100"
               >
                 Cancel
               </button>
@@ -102,7 +102,7 @@ export function QuestionCard({
           ) : (
             <button
               onClick={() => setConfirmDelete(true)}
-              className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
+              className="rounded-md border border-stone-300 px-1.5 py-0.5 text-stone-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-700"
             >
               Delete
             </button>
@@ -115,7 +115,7 @@ export function QuestionCard({
         multiline
         rows={2}
         label="Question prompt"
-        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm font-medium text-white/90 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none"
+        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm font-medium text-stone-900 transition hover:border-amber-700/20 focus:border-amber-600/50 focus:bg-white/60 focus:outline-none"
       />
       <EditableText
         value={question.answer_outline}
@@ -124,7 +124,7 @@ export function QuestionCard({
         rows={2}
         label="Answer outline"
         placeholder="Answer outline…"
-        className="w-full rounded-lg border border-transparent px-2 py-1 text-xs text-white/55 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none"
+        className="w-full rounded-lg border border-transparent px-2 py-1 text-xs text-stone-600 transition hover:border-amber-700/20 focus:border-amber-600/50 focus:bg-white/60 focus:outline-none"
       />
     </li>
   );

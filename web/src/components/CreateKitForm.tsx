@@ -59,7 +59,7 @@ export function CreateKitForm() {
           role="tab"
           aria-selected={mode === "single"}
           onClick={() => setMode("single")}
-          className={`rounded-lg px-3.5 py-1.5 font-medium transition ${mode === "single" ? "glow-btn text-white" : "border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"}`}
+          className={`rounded-lg px-3.5 py-1.5 font-medium transition ${mode === "single" ? "glow-btn text-white" : "border border-stone-300 text-stone-600 hover:bg-amber-600/10 hover:text-stone-900"}`}
         >
           Paste one
         </button>
@@ -67,7 +67,7 @@ export function CreateKitForm() {
           role="tab"
           aria-selected={mode === "batch"}
           onClick={() => setMode("batch")}
-          className={`rounded-lg px-3.5 py-1.5 font-medium transition ${mode === "batch" ? "glow-btn text-white" : "border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"}`}
+          className={`rounded-lg px-3.5 py-1.5 font-medium transition ${mode === "batch" ? "glow-btn text-white" : "border border-stone-300 text-stone-600 hover:bg-amber-600/10 hover:text-stone-900"}`}
         >
           Upload multiple
         </button>
@@ -75,7 +75,7 @@ export function CreateKitForm() {
 
       {mode === "single" ? (
         <form onSubmit={handleSingleSubmit} className="flex flex-col gap-4">
-          <label className="flex flex-col gap-1.5 text-sm text-white/70">
+          <label className="flex flex-col gap-1.5 text-sm text-stone-600">
             Job description
             <textarea
               required
@@ -87,7 +87,7 @@ export function CreateKitForm() {
             />
           </label>
           <div className="flex gap-4">
-            <label className="flex flex-1 flex-col gap-1.5 text-sm text-white/70">
+            <label className="flex flex-1 flex-col gap-1.5 text-sm text-stone-600">
               Company website
               <input
                 type="url"
@@ -98,7 +98,7 @@ export function CreateKitForm() {
                 className="field rounded-lg px-3 py-2"
               />
             </label>
-            <label className="flex w-28 flex-col gap-1.5 text-sm text-white/70">
+            <label className="flex w-28 flex-col gap-1.5 text-sm text-stone-600">
               Days to prep
               <input
                 type="number"
@@ -112,7 +112,7 @@ export function CreateKitForm() {
             </label>
           </div>
           {mutation.isError && (
-            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
+            <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
               {mutation.error instanceof ApiError ? mutation.error.message : "Could not start generation."}
             </p>
           )}
@@ -121,14 +121,14 @@ export function CreateKitForm() {
             disabled={mutation.isPending}
             className="glow-btn self-start rounded-lg px-5 py-2.5 text-sm font-medium text-white"
           >
-            {mutation.isPending ? "Starting…" : "🚀 Generate kit"}
+            {mutation.isPending ? "Starting…" : "☕ Generate kit"}
           </button>
         </form>
       ) : (
         <div className="flex flex-col gap-3">
-          <p className="text-sm text-white/60">
+          <p className="text-sm text-stone-600">
             Upload a JSON file: an array of{" "}
-            <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs text-cyan-300">
+            <code className="rounded bg-amber-600/10 px-1.5 py-0.5 text-xs text-amber-800">
               {`{ "jd": "...", "companyUrl": "...", "days": 5 }`}
             </code>{" "}
             entries.
@@ -138,19 +138,19 @@ export function CreateKitForm() {
             type="file"
             accept="application/json"
             onChange={handleFileChange}
-            className="text-sm text-white/70 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-white/80 hover:file:bg-white/15"
+            className="text-sm text-stone-600 file:mr-3 file:rounded-lg file:border-0 file:bg-amber-600/10 file:px-3 file:py-1.5 file:text-amber-800 hover:file:bg-amber-600/20"
           />
           {fileError && (
-            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
+            <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
               {fileError}
             </p>
           )}
           {mutation.isError && (
-            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
+            <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
               {mutation.error instanceof ApiError ? mutation.error.message : "Could not start generation."}
             </p>
           )}
-          {mutation.isPending && <p className="text-sm text-white/50">Starting generation…</p>}
+          {mutation.isPending && <p className="text-sm text-stone-500">Starting generation…</p>}
         </div>
       )}
     </div>

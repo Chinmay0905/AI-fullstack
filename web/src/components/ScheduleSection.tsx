@@ -18,9 +18,9 @@ export function ScheduleSection({
   return (
     <section className="glass rounded-2xl p-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-bold text-white">🗓️ Study schedule</h2>
+        <h2 className="text-lg font-bold text-stone-900">🗓️ Study schedule</h2>
         <div className="flex items-center gap-2 text-xs">
-          <label className="flex items-center gap-1.5 text-white/60">
+          <label className="flex items-center gap-1.5 text-stone-600">
             Days
             <input
               type="number"
@@ -34,7 +34,7 @@ export function ScheduleSection({
           <button
             onClick={() => actions.regenerateSchedule.mutate([days])}
             disabled={regenerating}
-            className="rounded-lg border border-white/10 px-2.5 py-1 text-white/70 transition hover:border-fuchsia-400/40 hover:bg-white/10 hover:text-white disabled:opacity-50"
+            className="rounded-lg border border-stone-300 px-2.5 py-1 text-stone-600 transition hover:border-amber-600/40 hover:bg-amber-600/10 hover:text-stone-900 disabled:opacity-50"
           >
             {regenerating ? "Rebuilding…" : "↻ Regenerate"}
           </button>
@@ -48,22 +48,22 @@ export function ScheduleSection({
             <li key={day.day} className="glass flex gap-3 rounded-xl p-3.5">
               <span
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                  empty ? "border border-white/10 text-white/30" : "glow-btn text-white"
+                  empty ? "border border-stone-300 text-stone-400" : "glow-btn text-white"
                 }`}
               >
                 {day.day}
               </span>
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-baseline justify-between gap-2">
-                  <span className="text-sm font-semibold text-white/90">{day.focus}</span>
-                  <span className="shrink-0 text-xs text-white/40">{day.minutes} min</span>
+                  <span className="text-sm font-semibold text-stone-800">{day.focus}</span>
+                  <span className="shrink-0 text-xs text-stone-400">{day.minutes} min</span>
                 </div>
                 {day.question_ids.length > 0 && (
                   <ul className="flex flex-col gap-1">
                     {day.question_ids.map((qid) => {
                       const q = questionsById.get(qid);
                       return (
-                        <li key={qid} className="truncate text-xs text-white/45">
+                        <li key={qid} className="truncate text-xs text-stone-500">
                           · {q?.prompt ?? qid}
                         </li>
                       );
