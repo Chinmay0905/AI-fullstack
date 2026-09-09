@@ -16,11 +16,11 @@ export function ScheduleSection({
   const questionsById = new Map(kit.questions.map((q) => [q.id, q]));
 
   return (
-    <section className="rounded-lg border border-neutral-200 bg-white p-5">
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold">Study schedule</h2>
+    <section className="glass rounded-2xl p-6">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-lg font-bold text-white">🗓️ Study schedule</h2>
         <div className="flex items-center gap-2 text-xs">
-          <label className="flex items-center gap-1">
+          <label className="flex items-center gap-1.5 text-white/60">
             Days
             <input
               type="number"
@@ -28,41 +28,52 @@ export function ScheduleSection({
               max={365}
               value={days}
               onChange={(e) => setDays(Number(e.target.value))}
-              className="w-16 rounded border border-neutral-300 px-1.5 py-0.5"
+              className="field w-16 rounded-md px-1.5 py-0.5"
             />
           </label>
           <button
             onClick={() => actions.regenerateSchedule.mutate([days])}
             disabled={regenerating}
-            className="rounded-md border border-neutral-300 px-2.5 py-1 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50"
+            className="rounded-lg border border-white/10 px-2.5 py-1 text-white/70 transition hover:border-fuchsia-400/40 hover:bg-white/10 hover:text-white disabled:opacity-50"
           >
-            {regenerating ? "Rebuilding…" : "Regenerate"}
+            {regenerating ? "Rebuilding…" : "↻ Regenerate"}
           </button>
         </div>
       </div>
 
       <ol className="flex flex-col gap-3">
-        {kit.schedule.days.map((day) => (
-          <li key={day.day} className="rounded-md border border-neutral-200 p-3">
-            <div className="mb-1 flex items-baseline justify-between">
-              <span className="text-sm font-semibold">Day {day.day}</span>
-              <span className="text-xs text-neutral-500">{day.minutes} min</span>
-            </div>
-            <p className="mb-2 text-sm text-neutral-700">{day.focus}</p>
-            {day.question_ids.length > 0 && (
-              <ul className="flex flex-col gap-1">
-                {day.question_ids.map((qid) => {
-                  const q = questionsById.get(qid);
-                  return (
-                    <li key={qid} className="truncate text-xs text-neutral-500">
-                      · {q?.prompt ?? qid}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </li>
-        ))}
+        {kit.schedule.days.map((day) => {
+          const empty = day.question_ids.length === 0;
+          return (
+            <li key={day.day} className="glass flex gap-3 rounded-xl p-3.5">
+              <span
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                  empty ? "border border-white/10 text-white/30" : "glow-btn text-white"
+                }`}
+              >
+                {day.day}
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-baseline justify-between gap-2">
+                  <span className="text-sm font-semibold text-white/90">{day.focus}</span>
+                  <span className="shrink-0 text-xs text-white/40">{day.minutes} min</span>
+                </div>
+                {day.question_ids.length > 0 && (
+                  <ul className="flex flex-col gap-1">
+                    {day.question_ids.map((qid) => {
+                      const q = questionsById.get(qid);
+                      return (
+                        <li key={qid} className="truncate text-xs text-white/45">
+                          · {q?.prompt ?? qid}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            </li>
+          );
+        })}
       </ol>
     </section>
   );

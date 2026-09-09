@@ -26,11 +26,11 @@ export function KitDetailClient({ id }: { id: string }) {
   const { record, isLoading, isError } = kitHook;
 
   if (isLoading) {
-    return <p className="text-sm text-neutral-500">Loading kit…</p>;
+    return <p className="text-sm text-white/50">Loading kit…</p>;
   }
   if (isError || !record) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-5 text-sm text-red-700">
+      <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-5 text-sm text-red-300">
         Could not load this kit.{" "}
         <Link href="/" className="underline">
           Back to dashboard
@@ -42,29 +42,29 @@ export function KitDetailClient({ id }: { id: string }) {
   if (record.status === "generating") {
     const currentIndex = PIPELINE_STEPS.indexOf(record.progressStep ?? "");
     return (
-      <div className="rounded-lg border border-neutral-200 bg-white p-8">
-        <h1 className="mb-1 text-lg font-semibold">Generating your kit…</h1>
-        <p className="mb-6 text-sm text-neutral-500">
+      <div className="glass rounded-2xl p-8">
+        <h1 className="mb-1 text-xl font-bold gradient-text">Generating your kit…</h1>
+        <p className="mb-7 text-sm text-white/45">
           {record.input.companyUrl} · {record.input.days} day{record.input.days === 1 ? "" : "s"}
         </p>
-        <ol className="flex flex-col gap-2">
+        <ol className="flex flex-col gap-3">
           {PIPELINE_STEPS.map((step, i) => {
             const done = currentIndex > i || (currentIndex === -1 && false);
             const active = step === record.progressStep;
             return (
-              <li key={step} className="flex items-center gap-2 text-sm">
+              <li key={step} className="flex items-center gap-3 text-sm">
                 <span
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
+                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                     done
-                      ? "bg-green-600 text-white"
+                      ? "bg-emerald-400/20 text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.35)]"
                       : active
-                        ? "animate-pulse bg-neutral-900 text-white"
-                        : "bg-neutral-100 text-neutral-400"
+                        ? "pulse-glow glow-btn text-white"
+                        : "border border-white/10 text-white/30"
                   }`}
                 >
                   {done ? "✓" : i + 1}
                 </span>
-                <span className={active ? "font-medium text-neutral-900" : "text-neutral-500"}>
+                <span className={active ? "font-semibold text-white" : done ? "text-white/60" : "text-white/35"}>
                   {PROGRESS_LABELS[step] ?? step}
                 </span>
               </li>
@@ -77,12 +77,12 @@ export function KitDetailClient({ id }: { id: string }) {
 
   if (record.status === "failed") {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-6">
-        <h1 className="mb-2 text-lg font-semibold text-red-800">Generation failed</h1>
-        <p className="text-sm text-red-700">
+      <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-6">
+        <h1 className="mb-2 text-lg font-bold text-red-300">Generation failed</h1>
+        <p className="text-sm text-red-200/80">
           {record.error?.code}: {record.error?.message}
         </p>
-        <Link href="/" className="mt-4 inline-block text-sm text-red-800 underline">
+        <Link href="/" className="mt-4 inline-block text-sm text-red-300 underline">
           Back to dashboard — try again with a different input
         </Link>
       </div>
@@ -93,18 +93,18 @@ export function KitDetailClient({ id }: { id: string }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold">{kit.role.title || "Untitled role"}</h1>
-          <p className="text-sm text-neutral-500">
+          <h1 className="text-2xl font-bold gradient-text">{kit.role.title || "Untitled role"}</h1>
+          <p className="text-sm text-white/45">
             {kit.source.company} · researched {new Date(kit.source.researched_at).toLocaleDateString()}
           </p>
         </div>
         <Link
           href={`/kits/${id}/practice`}
-          className="rounded-md bg-neutral-900 px-4 py-2 text-sm text-white hover:bg-neutral-700"
+          className="glow-btn rounded-lg px-4 py-2 text-sm font-medium text-white"
         >
-          Practice flashcards
+          🎓 Practice flashcards
         </Link>
       </div>
 

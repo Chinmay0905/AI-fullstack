@@ -15,14 +15,14 @@ export function FlashcardsSection({
   const [adding, setAdding] = useState(false);
 
   return (
-    <section className="rounded-lg border border-neutral-200 bg-white p-5">
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Flashcards ({kit.flashcards.length})</h2>
+    <section className="glass rounded-2xl p-6">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-bold text-white">🗂️ Flashcards ({kit.flashcards.length})</h2>
         <button
           onClick={() => setAdding((v) => !v)}
-          className="rounded-md border border-neutral-300 px-2.5 py-1 text-xs text-neutral-700 hover:bg-neutral-50"
+          className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-white/70 transition hover:bg-white/10 hover:text-white"
         >
-          Add flashcard
+          + Add flashcard
         </button>
       </div>
 
@@ -38,7 +38,7 @@ export function FlashcardsSection({
       )}
 
       {kit.flashcards.length === 0 ? (
-        <p className="text-sm text-neutral-400">No flashcards yet.</p>
+        <p className="text-sm text-white/35">No flashcards yet.</p>
       ) : (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {kit.flashcards.map((f) => (
@@ -60,22 +60,22 @@ function FlashcardEditor({
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
-    <li className="rounded-md border border-neutral-200 p-3">
-      <div className="mb-1 flex items-center justify-between text-xs">
-        <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-neutral-600">
+    <li className="glass rounded-xl p-3.5 transition hover:border-white/20">
+      <div className="mb-1.5 flex items-center justify-between text-xs">
+        <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-white/55">
           {flashcard.origin === "user_added" ? "Added by you" : flashcard.origin === "user_edited" ? "Edited by you" : "Generated"}
         </span>
         {confirmDelete ? (
           <span className="flex gap-1">
             <button
               onClick={() => actions.deleteFlashcard.mutate([flashcard.id])}
-              className="rounded border border-red-300 bg-red-50 px-1.5 py-0.5 text-red-700 hover:bg-red-100"
+              className="rounded-md border border-red-400/40 bg-red-400/15 px-1.5 py-0.5 text-red-300 hover:bg-red-400/25"
             >
               Confirm
             </button>
             <button
               onClick={() => setConfirmDelete(false)}
-              className="rounded border border-neutral-200 px-1.5 py-0.5 text-neutral-600 hover:bg-neutral-50"
+              className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 hover:bg-white/10"
             >
               Cancel
             </button>
@@ -83,29 +83,29 @@ function FlashcardEditor({
         ) : (
           <button
             onClick={() => setConfirmDelete(true)}
-            className="rounded border border-neutral-200 px-1.5 py-0.5 text-neutral-600 hover:bg-neutral-50"
+            className="rounded-md border border-white/10 px-1.5 py-0.5 text-white/60 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300"
           >
             Delete
           </button>
         )}
       </div>
-      <p className="mb-1 text-xs font-medium uppercase tracking-wide text-neutral-500">Front</p>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-violet-300/70">Front</p>
       <EditableText
         value={flashcard.front}
         onSave={(front) => actions.editFlashcard.mutate([flashcard.id, { front }])}
         multiline
         rows={2}
         label="Flashcard front"
-        className="w-full rounded-md border border-transparent px-2 py-1 text-sm font-medium hover:border-neutral-200 focus:border-neutral-400 focus:outline-none"
+        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm font-medium text-white/90 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none"
       />
-      <p className="mb-1 mt-1 text-xs font-medium uppercase tracking-wide text-neutral-500">Back</p>
+      <p className="mb-1 mt-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-300/70">Back</p>
       <EditableText
         value={flashcard.back}
         onSave={(back) => actions.editFlashcard.mutate([flashcard.id, { back }])}
         multiline
         rows={2}
         label="Flashcard back"
-        className="w-full rounded-md border border-transparent px-2 py-1 text-sm hover:border-neutral-200 focus:border-neutral-400 focus:outline-none"
+        className="w-full rounded-lg border border-transparent px-2 py-1 text-sm text-white/75 transition hover:border-white/15 focus:border-fuchsia-400/50 focus:bg-white/5 focus:outline-none"
       />
     </li>
   );
@@ -125,44 +125,44 @@ function AddFlashcardForm({
   const [reqId, setReqId] = useState("");
 
   return (
-    <div className="mb-3 rounded-md border border-dashed border-neutral-300 p-3">
+    <div className="glass mb-3 rounded-xl border-dashed p-3">
       <div className="flex flex-col gap-2">
         <input
           value={front}
           onChange={(e) => setFront(e.target.value)}
           placeholder="Front"
-          className="rounded-md border border-neutral-300 px-2 py-1 text-sm"
+          className="field rounded-lg px-2 py-1 text-sm"
         />
         <input
           value={back}
           onChange={(e) => setBack(e.target.value)}
           placeholder="Back"
-          className="rounded-md border border-neutral-300 px-2 py-1 text-sm"
+          className="field rounded-lg px-2 py-1 text-sm"
         />
-        <div className="flex items-center gap-2 text-xs">
+        <div className="flex items-center gap-2 text-xs text-white/60">
           <label className="flex items-center gap-1">
             Requirement
             <select
               value={reqId}
               onChange={(e) => setReqId(e.target.value)}
-              className="rounded border border-neutral-300 px-1 py-0.5"
+              className="field rounded-md px-1 py-0.5"
             >
-              <option value="">(none)</option>
+              <option className="bg-[#12101f]" value="">(none)</option>
               {requirements.map((r) => (
-                <option key={r.id} value={r.id}>
+                <option key={r.id} value={r.id} className="bg-[#12101f]">
                   {r.id}: {r.text.slice(0, 30)}
                 </option>
               ))}
             </select>
           </label>
           <div className="ml-auto flex gap-2">
-            <button onClick={onCancel} className="rounded border border-neutral-300 px-2 py-1 text-neutral-600 hover:bg-neutral-50">
+            <button onClick={onCancel} className="rounded-md border border-white/10 px-2 py-1 text-white/60 hover:bg-white/10">
               Cancel
             </button>
             <button
               disabled={!front.trim() || !back.trim()}
               onClick={() => onAdd({ front, back, requirement_ids: reqId ? [reqId] : [] })}
-              className="rounded bg-neutral-900 px-2 py-1 text-white disabled:opacity-50"
+              className="glow-btn rounded-md px-2.5 py-1 font-medium text-white disabled:opacity-50"
             >
               Add
             </button>

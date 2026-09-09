@@ -12,6 +12,12 @@ const CATEGORY_LABEL: Record<QuestionCategory, string> = {
   "system-design": "System design",
   "company-fit": "Company fit",
 };
+const CATEGORY_ACCENT: Record<QuestionCategory, string> = {
+  technical: "text-cyan-300",
+  behavioural: "text-violet-300",
+  "system-design": "text-amber-300",
+  "company-fit": "text-pink-300",
+};
 // system-design has no requirement "kind" mapped to it in this app's
 // pipeline (see server/src/services/kitService.ts) — questions land there
 // only if added by hand, so there's nothing to regenerate automatically.
@@ -60,17 +66,17 @@ export function QuestionBankSection({
   }
 
   return (
-    <section className="rounded-lg border border-neutral-200 bg-white p-5">
-      <h2 className="mb-3 text-lg font-semibold">Question bank</h2>
+    <section className="glass rounded-2xl p-6">
+      <h2 className="mb-4 text-lg font-bold text-white">📚 Question bank</h2>
 
       {uncovered.length > 0 && (
-        <p className="mb-4 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800" role="status">
+        <p className="mb-4 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-sm text-amber-300" role="status">
           {uncovered.length} requirement{uncovered.length === 1 ? "" : "s"} still {uncovered.length === 1 ? "has" : "have"}{" "}
           no question: {uncovered.join(", ")}.
         </p>
       )}
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-7">
         {CATEGORIES.map((category) => (
           <CategoryGroup
             key={category}
@@ -112,24 +118,24 @@ function CategoryGroup({
 
   return (
     <div>
-      <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-neutral-700">
+      <div className="mb-2.5 flex items-center justify-between">
+        <h3 className={`text-sm font-bold uppercase tracking-wide ${CATEGORY_ACCENT[category]}`}>
           {CATEGORY_LABEL[category]} ({questions.length})
         </h3>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setAdding((v) => !v)}
-            className="rounded-md border border-neutral-300 px-2.5 py-1 text-xs text-neutral-700 hover:bg-neutral-50"
+            className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-white/70 transition hover:bg-white/10 hover:text-white"
           >
-            Add question
+            + Add question
           </button>
           {REGENERATABLE.has(category) && (
             <button
               onClick={() => actions.regenerateQuestionCategory.mutate([category])}
               disabled={regenerating}
-              className="rounded-md border border-neutral-300 px-2.5 py-1 text-xs text-neutral-700 hover:bg-neutral-50 disabled:opacity-50"
+              className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-white/70 transition hover:border-fuchsia-400/40 hover:bg-white/10 hover:text-white disabled:opacity-50"
             >
-              {regenerating ? "Regenerating…" : "Regenerate"}
+              {regenerating ? "Regenerating…" : "↻ Regenerate"}
             </button>
           )}
         </div>
@@ -148,7 +154,7 @@ function CategoryGroup({
       )}
 
       {questions.length === 0 ? (
-        <p className="text-sm text-neutral-400">No questions in this category yet.</p>
+        <p className="text-sm text-white/35">No questions in this category yet.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {questions.map((q, i) => (
@@ -188,33 +194,33 @@ function AddQuestionForm({
   const [reqId, setReqId] = useState<string>("");
 
   return (
-    <div className="mb-3 rounded-md border border-dashed border-neutral-300 p-3">
+    <div className="glass mb-3 rounded-xl border-dashed p-3">
       <div className="flex flex-col gap-2">
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Question prompt"
           rows={2}
-          className="rounded-md border border-neutral-300 px-2 py-1 text-sm"
+          className="field rounded-lg px-2 py-1 text-sm"
         />
         <textarea
           value={answerOutline}
           onChange={(e) => setAnswerOutline(e.target.value)}
           placeholder="Answer outline"
           rows={2}
-          className="rounded-md border border-neutral-300 px-2 py-1 text-sm"
+          className="field rounded-lg px-2 py-1 text-sm"
         />
-        <div className="flex items-center gap-2 text-xs">
+        <div className="flex items-center gap-2 text-xs text-white/60">
           <label className="flex items-center gap-1">
             Difficulty
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(Number(e.target.value))}
-              className="rounded border border-neutral-300 px-1 py-0.5"
+              className="field rounded-md px-1 py-0.5"
             >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
+              <option className="bg-[#12101f]" value={1}>1</option>
+              <option className="bg-[#12101f]" value={2}>2</option>
+              <option className="bg-[#12101f]" value={3}>3</option>
             </select>
           </label>
           <label className="flex items-center gap-1">
@@ -222,11 +228,11 @@ function AddQuestionForm({
             <select
               value={reqId}
               onChange={(e) => setReqId(e.target.value)}
-              className="rounded border border-neutral-300 px-1 py-0.5"
+              className="field rounded-md px-1 py-0.5"
             >
-              <option value="">(none)</option>
+              <option className="bg-[#12101f]" value="">(none)</option>
               {requirements.map((r) => (
-                <option key={r.id} value={r.id}>
+                <option key={r.id} value={r.id} className="bg-[#12101f]">
                   {r.id}: {r.text.slice(0, 30)}
                 </option>
               ))}
@@ -235,7 +241,7 @@ function AddQuestionForm({
           <div className="ml-auto flex gap-2">
             <button
               onClick={onCancel}
-              className="rounded border border-neutral-300 px-2 py-1 text-neutral-600 hover:bg-neutral-50"
+              className="rounded-md border border-white/10 px-2 py-1 text-white/60 hover:bg-white/10"
             >
               Cancel
             </button>
@@ -250,7 +256,7 @@ function AddQuestionForm({
                   requirement_ids: reqId ? [reqId] : [],
                 })
               }
-              className="rounded bg-neutral-900 px-2 py-1 text-white disabled:opacity-50"
+              className="glow-btn rounded-md px-2.5 py-1 font-medium text-white disabled:opacity-50"
             >
               Add
             </button>

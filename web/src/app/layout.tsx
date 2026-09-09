@@ -25,10 +25,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-neutral-50 text-neutral-900">
+      <body className="min-h-full flex flex-col">
+        <div className="bg-mesh" aria-hidden="true" />
         <QueryProvider>
           <TopNav />
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">{children}</main>
+          <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
         </QueryProvider>
       </body>
     </html>

@@ -31,45 +31,51 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto max-w-sm py-12">
-      <h1 className="mb-6 text-xl font-semibold">Sign in</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm">
-          Email
-          <input
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="rounded-md border border-neutral-300 px-3 py-2 focus:outline focus:outline-2 focus:outline-neutral-900"
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm">
-          Password
-          <input
-            type="password"
-            required
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="rounded-md border border-neutral-300 px-3 py-2 focus:outline focus:outline-2 focus:outline-neutral-900"
-          />
-        </label>
-        {error && <p className="text-sm text-red-600" role="alert">{error}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="rounded-md bg-neutral-900 px-4 py-2 text-white hover:bg-neutral-700 disabled:opacity-50"
-        >
-          {submitting ? "Signing in…" : "Sign in"}
-        </button>
-      </form>
-      <p className="mt-4 text-sm text-neutral-600">
-        No account?{" "}
-        <Link href="/register" className="underline">
-          Sign up
-        </Link>
-      </p>
+      <div className="glass glow-card rounded-2xl p-8 transition-shadow">
+        <h1 className="mb-6 text-2xl font-bold gradient-text">Sign in</h1>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <label className="flex flex-col gap-1.5 text-sm text-white/70">
+            Email
+            <input
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="field rounded-lg px-3 py-2"
+            />
+          </label>
+          <label className="flex flex-col gap-1.5 text-sm text-white/70">
+            Password
+            <input
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="field rounded-lg px-3 py-2"
+            />
+          </label>
+          {error && (
+            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
+              {error}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={submitting}
+            className="glow-btn mt-2 rounded-lg px-4 py-2.5 font-medium text-white"
+          >
+            {submitting ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+        <p className="mt-6 text-sm text-white/50">
+          No account?{" "}
+          <Link href="/register" className="text-cyan-300 underline decoration-cyan-300/40 hover:text-cyan-200">
+            Sign up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

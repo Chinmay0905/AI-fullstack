@@ -24,41 +24,41 @@ export function KitList() {
   });
 
   if (query.isLoading) {
-    return <p className="text-sm text-neutral-500">Loading your kits…</p>;
+    return <p className="text-sm text-white/50">Loading your kits…</p>;
   }
   if (query.isError) {
-    return <p className="text-sm text-red-600">Could not load your kits. Try refreshing.</p>;
+    return <p className="text-sm text-red-300">Could not load your kits. Try refreshing.</p>;
   }
 
   const kits = query.data?.kits ?? [];
   if (kits.length === 0) {
     return (
-      <p className="rounded-lg border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-500">
+      <p className="glass rounded-2xl border-dashed p-8 text-center text-sm text-white/50">
         No kits yet — paste a job description above to generate your first one.
       </p>
     );
   }
 
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-3">
       {kits.map((k) => (
         <li
           key={k.id}
-          className="flex items-center justify-between gap-3 rounded-lg border border-neutral-200 bg-white p-4"
+          className="glass glow-card flex items-center justify-between gap-3 rounded-2xl p-4 transition-shadow"
         >
           <Link href={`/kits/${k.id}`} className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <span className="truncate font-medium text-neutral-900">
+              <span className="truncate font-medium text-white">
                 {k.kit?.role.title || k.kit?.source.company || "Untitled kit"}
               </span>
               <StatusBadge status={k.status} progressStep={k.progressStep} />
             </div>
-            <p className="mt-0.5 truncate text-xs text-neutral-500">
+            <p className="mt-0.5 truncate text-xs text-white/45">
               {k.kit?.source.company || k.input.companyUrl} · {k.input.days} day
               {k.input.days === 1 ? "" : "s"}
             </p>
             {k.status === "failed" && k.error && (
-              <p className="mt-1 text-xs text-red-600">
+              <p className="mt-1 text-xs text-red-300">
                 {k.error.code}: {k.error.message}
               </p>
             )}
@@ -67,7 +67,7 @@ export function KitList() {
             onClick={() => deleteMutation.mutate(k.id)}
             disabled={deleteMutation.isPending}
             aria-label="Delete kit"
-            className="shrink-0 rounded-md border border-neutral-300 px-2.5 py-1.5 text-xs text-neutral-600 hover:bg-neutral-50 disabled:opacity-50"
+            className="shrink-0 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-white/60 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-300 disabled:opacity-50"
           >
             Delete
           </button>

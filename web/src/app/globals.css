@@ -1,31 +1,138 @@
 @import "tailwindcss";
 
 /*
- * This app is designed as a single, light theme throughout (every
- * component uses explicit Tailwind neutral-* classes) — there's no real
- * dark-mode design pass. The default create-next-app template flips
- * --background/--foreground on prefers-color-scheme: dark, which left
- * body text light-gray while form inputs kept a plain white background
- * (never given an explicit text/background color) — nearly invisible
- * text and placeholders on a dark-mode OS. Forcing color-scheme: light
- * keeps the app (and native form control rendering) consistently light
- * regardless of OS/browser preference, matching what's actually built.
+ * One deliberate, explicit dark theme — no prefers-color-scheme branching.
+ * (The last redesign here relied on the OS theme flipping CSS variables
+ * and it broke text contrast; every color below is hard-coded instead.)
  */
 :root {
-  color-scheme: light;
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --bg: #08070f;
+  --foreground: #f5f4ff;
+  --accent-violet: #a855f7;
+  --accent-pink: #ec4899;
+  --accent-cyan: #22d3ee;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-background: var(--bg);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  color-scheme: dark;
 }
+
+body {
+  background: var(--bg);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Fixed, slowly drifting gradient mesh behind everything. Fixed position
+   (not attached to body::before's box) so it never scrolls or resizes
+   with content height. */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(168, 85, 247, 0.32), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(236, 72, 153, 0.28), transparent 42%),
+    radial-gradient(circle at 50% 92%, rgba(34, 211, 238, 0.22), transparent 48%),
+    var(--bg);
+  background-size: 140% 140%;
+  animation: mesh-drift 24s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-drift {
+  0% { background-position: 0% 0%, 100% 0%, 50% 100%, 0 0; }
+  100% { background-position: 15% 15%, 85% 8%, 40% 85%, 0 0; }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-pink));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-sheen 6s linear infinite;
+}
+
+@keyframes text-sheen {
+  to { background-position: 200% center; }
+}
+
+.glow-btn {
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-pink));
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.35), 0 0 36px rgba(236, 72, 153, 0.18);
+  transition: box-shadow 0.25s ease, transform 0.15s ease;
+}
+.glow-btn:hover:not(:disabled) {
+  box-shadow: 0 0 26px rgba(168, 85, 247, 0.55), 0 0 52px rgba(236, 72, 153, 0.3);
+  transform: translateY(-1px);
+}
+.glow-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.glow-btn:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.glow-card:hover {
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.25), 0 8px 40px -8px rgba(168, 85, 247, 0.25);
+}
+
+.field {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--foreground);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.field::placeholder {
+  color: rgba(245, 244, 255, 0.32);
+}
+.field:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.18);
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.4);
+  color: #fff;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--accent-violet), var(--accent-cyan));
+  border-radius: 8px;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.pulse-glow { animation: pulse-glow 1.6s ease-in-out infinite; }

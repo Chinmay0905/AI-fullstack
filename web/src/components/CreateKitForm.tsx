@@ -53,13 +53,13 @@ export function CreateKitForm() {
   }
 
   return (
-    <div className="rounded-lg border border-neutral-200 bg-white p-5">
-      <div className="mb-4 flex gap-2 text-sm" role="tablist" aria-label="Kit creation mode">
+    <div className="glass glow-card rounded-2xl p-6 transition-shadow">
+      <div className="mb-5 flex gap-2 text-sm" role="tablist" aria-label="Kit creation mode">
         <button
           role="tab"
           aria-selected={mode === "single"}
           onClick={() => setMode("single")}
-          className={`rounded-md px-3 py-1.5 ${mode === "single" ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"}`}
+          className={`rounded-lg px-3.5 py-1.5 font-medium transition ${mode === "single" ? "glow-btn text-white" : "border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"}`}
         >
           Paste one
         </button>
@@ -67,7 +67,7 @@ export function CreateKitForm() {
           role="tab"
           aria-selected={mode === "batch"}
           onClick={() => setMode("batch")}
-          className={`rounded-md px-3 py-1.5 ${mode === "batch" ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"}`}
+          className={`rounded-lg px-3.5 py-1.5 font-medium transition ${mode === "batch" ? "glow-btn text-white" : "border border-white/10 text-white/60 hover:bg-white/10 hover:text-white"}`}
         >
           Upload multiple
         </button>
@@ -75,7 +75,7 @@ export function CreateKitForm() {
 
       {mode === "single" ? (
         <form onSubmit={handleSingleSubmit} className="flex flex-col gap-4">
-          <label className="flex flex-col gap-1 text-sm">
+          <label className="flex flex-col gap-1.5 text-sm text-white/70">
             Job description
             <textarea
               required
@@ -83,11 +83,11 @@ export function CreateKitForm() {
               value={jd}
               onChange={(e) => setJd(e.target.value)}
               placeholder="Paste the full job description here…"
-              className="rounded-md border border-neutral-300 bg-white px-3 py-2 font-mono text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline focus:outline-2 focus:outline-neutral-900"
+              className="field rounded-lg px-3 py-2 font-mono text-xs"
             />
           </label>
           <div className="flex gap-4">
-            <label className="flex flex-1 flex-col gap-1 text-sm">
+            <label className="flex flex-1 flex-col gap-1.5 text-sm text-white/70">
               Company website
               <input
                 type="url"
@@ -95,10 +95,10 @@ export function CreateKitForm() {
                 value={companyUrl}
                 onChange={(e) => setCompanyUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="rounded-md border border-neutral-300 bg-white px-3 py-2 text-neutral-900 placeholder:text-neutral-400 focus:outline focus:outline-2 focus:outline-neutral-900"
+                className="field rounded-lg px-3 py-2"
               />
             </label>
-            <label className="flex w-28 flex-col gap-1 text-sm">
+            <label className="flex w-28 flex-col gap-1.5 text-sm text-white/70">
               Days to prep
               <input
                 type="number"
@@ -107,28 +107,28 @@ export function CreateKitForm() {
                 required
                 value={days}
                 onChange={(e) => setDays(Number(e.target.value))}
-                className="rounded-md border border-neutral-300 bg-white px-3 py-2 text-neutral-900 focus:outline focus:outline-2 focus:outline-neutral-900"
+                className="field rounded-lg px-3 py-2"
               />
             </label>
           </div>
           {mutation.isError && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
               {mutation.error instanceof ApiError ? mutation.error.message : "Could not start generation."}
             </p>
           )}
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="self-start rounded-md bg-neutral-900 px-4 py-2 text-sm text-white hover:bg-neutral-700 disabled:opacity-50"
+            className="glow-btn self-start rounded-lg px-5 py-2.5 text-sm font-medium text-white"
           >
-            {mutation.isPending ? "Starting…" : "Generate kit"}
+            {mutation.isPending ? "Starting…" : "🚀 Generate kit"}
           </button>
         </form>
       ) : (
         <div className="flex flex-col gap-3">
-          <p className="text-sm text-neutral-600">
+          <p className="text-sm text-white/60">
             Upload a JSON file: an array of{" "}
-            <code className="rounded bg-neutral-100 px-1 py-0.5 text-xs">
+            <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs text-cyan-300">
               {`{ "jd": "...", "companyUrl": "...", "days": 5 }`}
             </code>{" "}
             entries.
@@ -138,19 +138,19 @@ export function CreateKitForm() {
             type="file"
             accept="application/json"
             onChange={handleFileChange}
-            className="text-sm"
+            className="text-sm text-white/70 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-1.5 file:text-white/80 hover:file:bg-white/15"
           />
           {fileError && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
               {fileError}
             </p>
           )}
           {mutation.isError && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300" role="alert">
               {mutation.error instanceof ApiError ? mutation.error.message : "Could not start generation."}
             </p>
           )}
-          {mutation.isPending && <p className="text-sm text-neutral-500">Starting generation…</p>}
+          {mutation.isPending && <p className="text-sm text-white/50">Starting generation…</p>}
         </div>
       )}
     </div>

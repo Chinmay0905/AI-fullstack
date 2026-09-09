@@ -7,13 +7,13 @@ import { KitList } from "@/components/KitList";
 export default function DashboardPage() {
   return (
     <AuthGate>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-10">
         <section>
-          <h1 className="mb-3 text-lg font-semibold">New kit</h1>
+          <h1 className="mb-4 text-2xl font-bold gradient-text">✨ New kit</h1>
           <CreateKitForm />
         </section>
         <section>
-          <h2 className="mb-3 text-lg font-semibold">Your kits</h2>
+          <h2 className="mb-4 text-2xl font-bold gradient-text">Your kits</h2>
           <KitList />
         </section>
       </div>

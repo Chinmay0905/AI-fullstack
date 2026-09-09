@@ -7,6 +7,13 @@ import { kitsApi } from "@/lib/api";
 import type { PracticeCard } from "@/lib/types";
 
 const CONFIDENCE_LABELS = ["Not confident", "Shaky", "OK", "Confident", "Nailed it"];
+const CONFIDENCE_STYLE = [
+  "border-red-400/30 bg-red-400/10 text-red-300 hover:bg-red-400/20",
+  "border-orange-400/30 bg-orange-400/10 text-orange-300 hover:bg-orange-400/20",
+  "border-amber-400/30 bg-amber-400/10 text-amber-300 hover:bg-amber-400/20",
+  "border-cyan-400/30 bg-cyan-400/10 text-cyan-300 hover:bg-cyan-400/20",
+  "border-emerald-400/30 bg-emerald-400/10 text-emerald-300 hover:bg-emerald-400/20",
+];
 
 /**
  * Section 7. The API returns cards ordered least-confident first; that
@@ -45,19 +52,19 @@ export function PracticeClient({ id }: { id: string }) {
   });
 
   if (query.isLoading || sessionOrder === null) {
-    return <p className="text-sm text-neutral-500">Loading flashcards…</p>;
+    return <p className="text-sm text-white/50">Loading flashcards…</p>;
   }
   if (query.isError || !query.data) {
-    return <p className="text-sm text-red-600">Could not load flashcards for this kit.</p>;
+    return <p className="text-sm text-red-300">Could not load flashcards for this kit.</p>;
   }
 
   const coverage = query.data.coverage;
 
   if (sessionOrder.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-500">
+      <div className="glass rounded-2xl border-dashed p-8 text-center text-sm text-white/50">
         This kit has no flashcards yet.{" "}
-        <Link href={`/kits/${id}`} className="underline">
+        <Link href={`/kits/${id}`} className="text-cyan-300 underline">
           Go add some
         </Link>
         .
@@ -71,24 +78,24 @@ export function PracticeClient({ id }: { id: string }) {
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6">
       <div className="flex items-center justify-between">
-        <Link href={`/kits/${id}`} className="text-sm text-neutral-500 underline">
+        <Link href={`/kits/${id}`} className="text-sm text-white/50 underline hover:text-white/80">
           ← Back to kit
         </Link>
-        <span className="text-sm text-neutral-500">
+        <span className="text-sm text-white/50">
           Covered {coverage.reviewed}/{coverage.total}
         </span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+      <div className="h-2 w-full overflow-hidden rounded-full border border-white/10 bg-white/5">
         <div
-          className="h-full bg-neutral-900 transition-all"
+          className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 shadow-[0_0_10px_rgba(168,85,247,0.6)] transition-all"
           style={{ width: `${(coverage.reviewed / Math.max(1, coverage.total)) * 100}%` }}
         />
       </div>
 
       {done || !card ? (
-        <div className="rounded-lg border border-neutral-200 bg-white p-8 text-center">
-          <h1 className="mb-2 text-lg font-semibold">Session complete</h1>
-          <p className="mb-4 text-sm text-neutral-500">
+        <div className="glass rounded-2xl p-8 text-center">
+          <h1 className="mb-2 text-xl font-bold gradient-text">🎉 Session complete</h1>
+          <p className="mb-5 text-sm text-white/50">
             You reviewed {sessionOrder.length} card{sessionOrder.length === 1 ? "" : "s"} this session.
           </p>
           <button
@@ -97,30 +104,30 @@ export function PracticeClient({ id }: { id: string }) {
               setSessionOrder(null);
               queryClient.invalidateQueries({ queryKey: ["practice", id] });
             }}
-            className="rounded-md bg-neutral-900 px-4 py-2 text-sm text-white hover:bg-neutral-700"
+            className="glow-btn rounded-lg px-5 py-2.5 text-sm font-medium text-white"
           >
             Practice again
           </button>
         </div>
       ) : (
-        <div className="rounded-lg border border-neutral-200 bg-white p-8">
-          <p className="mb-4 text-xs uppercase tracking-wide text-neutral-400">
+        <div className="glass rounded-2xl p-8">
+          <p className="mb-4 text-xs uppercase tracking-wide text-white/35">
             Card {index + 1} of {sessionOrder.length}
             {card.confidence !== null && ` · last rated: ${CONFIDENCE_LABELS[card.confidence - 1]}`}
           </p>
-          <p className="mb-6 min-h-[3rem] text-lg font-medium text-neutral-900">{card.front}</p>
+          <p className="mb-7 min-h-[3rem] text-xl font-semibold text-white">{card.front}</p>
 
           {revealed ? (
             <>
-              <div className="mb-6 rounded-md bg-neutral-50 p-4 text-sm text-neutral-700">{card.back}</div>
-              <p className="mb-2 text-sm text-neutral-500">How confident were you?</p>
+              <div className="glass mb-6 rounded-xl p-4 text-sm text-white/80">{card.back}</div>
+              <p className="mb-2 text-sm text-white/50">How confident were you?</p>
               <div className="flex gap-2">
                 {CONFIDENCE_LABELS.map((label, i) => (
                   <button
                     key={label}
                     onClick={() => rateMutation.mutate(i + 1)}
                     disabled={rateMutation.isPending}
-                    className="flex-1 rounded-md border border-neutral-300 px-2 py-2 text-xs text-neutral-700 hover:bg-neutral-50 disabled:opacity-50"
+                    className={`flex-1 rounded-lg border px-2 py-2 text-xs font-medium transition disabled:opacity-50 ${CONFIDENCE_STYLE[i]}`}
                   >
                     {i + 1}
                     <br />
@@ -132,7 +139,7 @@ export function PracticeClient({ id }: { id: string }) {
           ) : (
             <button
               onClick={() => setRevealed(true)}
-              className="w-full rounded-md bg-neutral-900 px-4 py-3 text-sm text-white hover:bg-neutral-700"
+              className="glow-btn w-full rounded-lg px-4 py-3 text-sm font-medium text-white"
               autoFocus
             >
               Reveal answer
