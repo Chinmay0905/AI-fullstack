@@ -3,15 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/useAuth";
-import { authApi } from "@/lib/api";
 
 export function TopNav() {
-  const { isAuthenticated, user, refresh } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const router = useRouter();
 
   async function handleLogout() {
-    await authApi.logout();
-    await refresh();
+    await logout();
     router.push("/login");
   }
 
